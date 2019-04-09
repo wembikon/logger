@@ -1,5 +1,5 @@
 # logger
-simple logger service that can log to console, file and network
+simple logger for c++ (recommended version is 14) that can log to console, file and network
 
 # usage
 ```
