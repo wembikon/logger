@@ -1,6 +1,10 @@
 # logger
 simple logger for c++ that can log to console, file and network
 
+# note
+the file and network loggers are mocked just to lay down the point of the architecture. the actual
+implementation are details that can be done by users
+
 # c++ version
 recommended version is 17 and above but works perfectly with 11 and 14
 
@@ -30,17 +34,22 @@ int main(){
   jamo::Logger logger({cl, fl, nl});
   
   // Here is a formatting example which is very fast
+  logger.fatal("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
   logger.error("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
-  logger.info("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
+  logger.info ("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
   logger.debug("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
   logger.trace("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
-
+  
+  logger.abort("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
   return 0;
 }
 ```
 
 # output
 ```
+[console][fatal] count 1 two 21, 12
+[file   ][fatal] count 1 two 21, 12
+[network][fatal] count 1 two 21, 12
 [console][error] count 1 two 21, 12
 [file   ][error] count 1 two 21, 12
 [network][error] count 1 two 21, 12
@@ -53,4 +62,7 @@ int main(){
 [console][trace] count 1 two 21, 12
 [file   ][trace] count 1 two 21, 12
 [network][trace] count 1 two 21, 12
+[console][abort] count 1 two 21, 12
+[file   ][abort] count 1 two 21, 12
+[network][abort] count 1 two 21, 12
 ```
