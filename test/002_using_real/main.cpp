@@ -13,7 +13,10 @@ int main(){
   jamo::NetworkLogger nl;
 
   jamo::Logger logger({cl, fl, nl});
+  logger.error("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
   logger.info("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
+  logger.debug("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
+  logger.trace("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
 
   return 0;
 }

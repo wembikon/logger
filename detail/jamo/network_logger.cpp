@@ -8,7 +8,7 @@ void NetworkLogger::error(const std::string &msg){
   std::cerr<<prefix<<"[error]"<<" "<<msg<<std::endl;
 }
 void NetworkLogger::info(const std::string &msg){
-  std::cerr<<prefix<<"[info]"<<" "<<msg<<std::endl;
+  std::cerr<<prefix<<"[info ]"<<" "<<msg<<std::endl;
 }
 void NetworkLogger::debug(const std::string &msg){
   std::cerr<<prefix<<"[debug]"<<" "<<msg<<std::endl;
