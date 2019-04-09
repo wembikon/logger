@@ -1,56 +1,72 @@
 #ifndef JAMO_LOGGER_H
 #define JAMO_LOGGER_H
 
-#include <memory>
+#include "jamo/internal/logger.h"
+
 #include <string>
+#include <iostream>
+#include <sstream>
+#include <vector>
 
 namespace jamo {
 
-class Logger {
-private:
-  struct Concept {
-    virtual ~Concept(){}
-    virtual void error(const std::string &msg) = 0;
-    virtual void info(const std::string &msg) = 0;
-    virtual void debug(const std::string &msg) = 0;
-    virtual void trace(const std::string &msg) = 0;
-  };
-  template<typename Impl>
-  struct Policy : Concept {
-    Policy(Impl &&o) : _o(o){}
-    void error(const std::string &msg) override{
-      _o.error(msg);
-    }
-    void info(const std::string &msg) override{
-      _o.info(msg);
-    }
-    void debug(const std::string &msg) override{
-      _o.debug(msg);
-    }
-    void trace(const std::string &msg) override{
-      _o.trace(msg);
-    }
-    Impl _o;
-  };
-public:
-  template<typename Impl>
-  Logger(Impl &&o) : _o(std::make_shared<Policy<Impl>>(std::forward<Impl>(o))){}
-  void error(const std::string &msg){
-    _o->error(msg);
+namespace formatter {
+
+struct SS {
+  SS(std::stringstream &ss):_ss(ss){}
+  template<typename T>
+  SS &operator<<(T &&v){
+    _ss<<v;
+    return *this;
   }
-  void info(const std::string &msg){
-    _o->info(msg);
+  ~SS(){
+    _ss.seekp(std::ios::beg);
   }
-  void debug(const std::string &msg){
-    _o->debug(msg);
+  std::string str() const{
+    return _ss.str();
   }
-  void trace(const std::string &msg){
-    _o->trace(msg);
-  }
-private:
-  std::shared_ptr<Concept> _o;
+  std::stringstream &_ss;
 };
 
+inline SS ss_impl(std::stringstream &s) {
+  return SS(s);
 }
+
+template<typename T>
+SS && fmt(SS &&ss, const T &v)
+{
+  ss<<v;
+  return std::move(ss);
+}
+
+template<typename T, typename... Args>
+SS && fmt(SS &&ss, const T &v, Args... args)
+{
+  ss<<v;
+  fmt(std::move(ss), std::forward<Args>(args)...);
+  return std::move(ss);
+}
+
+} // formatter
+
+class Logger {
+public:
+  inline Logger(std::vector<jamo::internal::Logger> loggers)
+  : _loggers(std::move(loggers)){}
+  inline void logInfo(const formatter::SS &ss){
+    for(auto l : _loggers){
+      l.info(ss.str());
+    }
+  }
+  template<typename... Args>
+  void info(Args... args){
+    logInfo(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
+  }
+private:
+  std::stringstream _ss; // the buffer
+  std::vector<jamo::internal::Logger> _loggers;
+};
+
+} // jamo
 
 #endif // JAMO_LOGGER_H
