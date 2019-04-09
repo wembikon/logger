@@ -52,10 +52,6 @@ struct SS {
   std::stringstream &_ss;
 };
 
-inline SS ss_impl(std::stringstream &s) {
-  return SS(s);
-}
-
 template<typename T>
 SS && fmt(SS &&ss, const T &v)
 {
@@ -67,8 +63,7 @@ template<typename T, typename... Args>
 SS && fmt(SS &&ss, const T &v, Args... args)
 {
   ss<<v;
-  fmt(std::move(ss), std::forward<Args>(args)...);
-  return std::move(ss);
+  return fmt(std::move(ss), std::forward<Args>(args)...);
 }
 
 } // formatter
@@ -77,6 +72,17 @@ class Logger {
 public:
   inline Logger(std::vector<jamo::internal::Logger> loggers)
   : _loggers(std::move(loggers)){}
+  inline void logAbort(const formatter::SS &ss){
+    for(auto l : _loggers){
+      l.abort(ss.str());      
+    }
+    exit(1);
+  }
+  inline void logFatal(const formatter::SS &ss){
+    for(auto l : _loggers){
+      l.fatal(ss.str());
+    }
+  }
   inline void logError(const formatter::SS &ss){
     for(auto l : _loggers){
       l.error(ss.str());
@@ -96,6 +102,14 @@ public:
     for(auto l : _loggers){
       l.trace(ss.str());
     }
+  }
+  template<typename... Args>
+  void abort(Args... args){
+    logAbort(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
+  }
+  template<typename... Args>
+  void fatal(Args... args){
+    logFatal(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
   }
   template<typename... Args>
   void error(Args... args){

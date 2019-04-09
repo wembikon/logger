@@ -34,6 +34,8 @@ class Logger {
 private:
   struct Concept {
     virtual ~Concept(){}
+    virtual void abort(const std::string &msg) = 0;
+    virtual void fatal(const std::string &msg) = 0;
     virtual void error(const std::string &msg) = 0;
     virtual void info(const std::string &msg) = 0;
     virtual void debug(const std::string &msg) = 0;
@@ -42,6 +44,12 @@ private:
   template<typename Impl>
   struct Policy : Concept {
     Policy(Impl &&o) : _o(o){}
+    void abort(const std::string &msg) override{
+      _o.abort(msg);
+    }
+    void fatal(const std::string &msg) override{
+      _o.fatal(msg);
+    }
     void error(const std::string &msg) override{
       _o.error(msg);
     }
@@ -59,6 +67,12 @@ private:
 public:
   template<typename Impl>
   Logger(Impl &&o) : _o(std::make_shared<Policy<Impl>>(std::forward<Impl>(o))){}
+  void abort(const std::string &msg){
+    _o->abort(msg);
+  }
+  void fatal(const std::string &msg){
+    _o->fatal(msg);
+  }
   void error(const std::string &msg){
     _o->error(msg);
   }
