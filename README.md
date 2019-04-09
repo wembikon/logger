@@ -1,7 +1,11 @@
 # logger
-simple logger for c++ (recommended version is 14) that can log to console, file and network
+simple logger for c++ that can log to console, file and network
+
+# c++ version
+recommended version is 17 and above but works perfectly with 11 and 14
 
 # usage
+just clone the repo and include the files in your build system
 ```
 #include "jamo/logger.h"
 
