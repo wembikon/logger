@@ -14,8 +14,9 @@ just clone the repo and include the files in your build system
 #include "jamo/logger.h"
 
 // Third parties can create their own logger objects. It should just have the following capabilities
+// void fatal(const std::string &)
 // void error(const std::string &)
-// void info(const std::string &)
+// void info (const std::string &)
 // void debug(const std::string &)
 // void trace(const std::string &)
 
