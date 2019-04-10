@@ -37,13 +37,13 @@ private:
     virtual void abort(const std::string &msg) = 0;
     virtual void fatal(const std::string &msg) = 0;
     virtual void error(const std::string &msg) = 0;
-    virtual void info(const std::string &msg) = 0;
+    virtual void info (const std::string &msg) = 0;
     virtual void debug(const std::string &msg) = 0;
     virtual void trace(const std::string &msg) = 0;
   };
   template<typename Impl>
   struct Policy : Concept {
-    Policy(Impl &&o) : _o(o){}
+    Policy(Impl &o) : _o(o){}
     void abort(const std::string &msg) override{
       _o.abort(msg);
     }
@@ -53,7 +53,7 @@ private:
     void error(const std::string &msg) override{
       _o.error(msg);
     }
-    void info(const std::string &msg) override{
+    void info (const std::string &msg) override{
       _o.info(msg);
     }
     void debug(const std::string &msg) override{
@@ -62,11 +62,11 @@ private:
     void trace(const std::string &msg) override{
       _o.trace(msg);
     }
-    Impl _o;
+    Impl &_o;
   };
 public:
   template<typename Impl>
-  Logger(Impl &&o) : _o(std::make_shared<Policy<Impl>>(std::forward<Impl>(o))){}
+  Logger(Impl &o) : _o(std::make_shared<Policy<Impl>>(o)){}
   void abort(const std::string &msg){
     _o->abort(msg);
   }
@@ -76,7 +76,7 @@ public:
   void error(const std::string &msg){
     _o->error(msg);
   }
-  void info(const std::string &msg){
+  void info (const std::string &msg){
     _o->info(msg);
   }
   void debug(const std::string &msg){

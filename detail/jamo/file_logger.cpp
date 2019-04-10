@@ -13,7 +13,7 @@ void FileLogger::fatal(const std::string &msg){
 void FileLogger::error(const std::string &msg){
   std::cerr<<prefix<<"[error]"<<" "<<msg<<std::endl;
 }
-void FileLogger::info(const std::string &msg){
+void FileLogger::info (const std::string &msg){
   std::cerr<<prefix<<"[info ]"<<" "<<msg<<std::endl;
 }
 void FileLogger::debug(const std::string &msg){

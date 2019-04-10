@@ -116,7 +116,7 @@ public:
     logError(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
   }
   template<typename... Args>
-  void info(Args... args){
+  void info (Args... args){
     logInfo(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
   }
   template<typename... Args>

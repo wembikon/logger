@@ -37,7 +37,7 @@ public:
   void abort(const std::string &msg);
   void fatal(const std::string &msg);
   void error(const std::string &msg);
-  void info(const std::string &msg);
+  void info (const std::string &msg);
   void debug(const std::string &msg);
   void trace(const std::string &msg);
 };
