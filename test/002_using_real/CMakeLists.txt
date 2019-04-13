@@ -10,9 +10,9 @@ include_directories(
   ${PROJECTS_ROOT_DIR}/detail)
 
 set(SRCS
-    ${PROJECTS_ROOT_DIR}/detail/jamo/console_logger.cpp
-    ${PROJECTS_ROOT_DIR}/detail/jamo/file_logger.cpp
-    ${PROJECTS_ROOT_DIR}/detail/jamo/network_logger.cpp
+    ${PROJECTS_ROOT_DIR}/detail/jamo/impls/console_logger.cpp
+    ${PROJECTS_ROOT_DIR}/detail/jamo/impls/file_logger.cpp
+    ${PROJECTS_ROOT_DIR}/detail/jamo/impls/network_logger.cpp
     main.cpp)
 
 add_executable(${TARGET} ${SRCS})

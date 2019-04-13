@@ -1,4 +1,4 @@
-#include "jamo/console_logger.h"
+#include "jamo/impls/console_logger.h"
 
 namespace jamo {
 

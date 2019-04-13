@@ -1,9 +1,9 @@
 #include "jamo/logger.h"
 
 // Third parties can create their own logger objects
-#include "jamo/console_logger.h"
-#include "jamo/file_logger.h"
-#include "jamo/network_logger.h"
+#include "jamo/impls/console_logger.h"
+#include "jamo/impls/file_logger.h"
+#include "jamo/impls/network_logger.h"
 
 #include <iomanip>
 

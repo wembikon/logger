@@ -1,4 +1,4 @@
-#include "jamo/network_logger.h"
+#include "jamo/impls/network_logger.h"
 
 namespace jamo {
 

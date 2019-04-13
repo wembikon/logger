@@ -28,13 +28,12 @@ SOFTWARE.
 #include "jamo/internal/logger.h"
 
 #include <string>
-#include <iostream>
 #include <sstream>
 #include <vector>
 
 namespace jamo {
 
-namespace formatter {
+namespace logger::formatter {
 
 struct SS {
   SS(std::stringstream &ss):_ss(ss){}
@@ -66,66 +65,66 @@ SS && fmt(SS &&ss, const T &v, Args... args)
   return fmt(std::move(ss), std::forward<Args>(args)...);
 }
 
-} // formatter
-
+} // namespace logger::formatter
+using logger::formatter::SS;
 class Logger {
 public:
   inline Logger(std::vector<jamo::internal::Logger> loggers)
   : _loggers(std::move(loggers)){}
-  inline void logAbort(const formatter::SS &ss){
+  inline void logAbort(const SS &ss){
     for(auto l : _loggers){
       l.abort(ss.str());      
     }
     exit(1);
   }
-  inline void logFatal(const formatter::SS &ss){
+  inline void logFatal(const SS &ss){
     for(auto l : _loggers){
       l.fatal(ss.str());
     }
   }
-  inline void logError(const formatter::SS &ss){
+  inline void logError(const SS &ss){
     for(auto l : _loggers){
       l.error(ss.str());
     }
   }
-  inline void logInfo(const formatter::SS &ss){
+  inline void logInfo(const SS &ss){
     for(auto l : _loggers){
       l.info(ss.str());
     }
   }
-  inline void logDebug(const formatter::SS &ss){
+  inline void logDebug(const SS &ss){
     for(auto l : _loggers){
       l.debug(ss.str());
     }
   }
-  inline void logTrace(const formatter::SS &ss){
+  inline void logTrace(const SS &ss){
     for(auto l : _loggers){
       l.trace(ss.str());
     }
   }
   template<typename... Args>
   void abort(Args... args){
-    logAbort(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
+    logAbort(logger::formatter::fmt(SS(_ss), std::forward<Args>(args)...));
   }
   template<typename... Args>
   void fatal(Args... args){
-    logFatal(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
+    logFatal(logger::formatter::fmt(SS(_ss), std::forward<Args>(args)...));
   }
   template<typename... Args>
   void error(Args... args){
-    logError(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
+    logError(logger::formatter::fmt(SS(_ss), std::forward<Args>(args)...));
   }
   template<typename... Args>
   void info (Args... args){
-    logInfo(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
+    logInfo(logger::formatter::fmt(SS(_ss), std::forward<Args>(args)...));
   }
   template<typename... Args>
   void debug(Args... args){
-    logDebug(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
+    logDebug(logger::formatter::fmt(SS(_ss), std::forward<Args>(args)...));
   }
   template<typename... Args>
   void trace(Args... args){
-    logTrace(formatter::fmt(formatter::SS(_ss), std::forward<Args>(args)...));
+    logTrace(logger::formatter::fmt(SS(_ss), std::forward<Args>(args)...));
   }
 private:
   std::stringstream _ss; // the buffer
