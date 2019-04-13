@@ -14,6 +14,7 @@ just clone the repo and include the files in your build system
 #include "jamo/logger.h"
 
 // Third parties can create their own logger objects. It should just have the following capabilities
+// void abort(const std::string &)
 // void fatal(const std::string &)
 // void error(const std::string &)
 // void info (const std::string &)
@@ -21,11 +22,11 @@ just clone the repo and include the files in your build system
 // void trace(const std::string &)
 
 // Out of the box loggers
-#include "jamo/console_logger.h"
-#include "jamo/file_logger.h"
-#include "jamo/network_logger.h"
+#include "jamo/impls/console_logger.h"
+#include "jamo/impls/file_logger.h"
+#include "jamo/impls/network_logger.h"
 
-#include <iomanip> // std::hex, oct
+#include <iomanip> // hex, oct. Just for testing
 
 int main(){
   jamo::ConsoleLogger cl;
