@@ -43,6 +43,7 @@ struct SS {
     return *this;
   }
   ~SS(){
+    _ss.str("");
     _ss.seekp(std::ios::beg);
   }
   std::string str() const{

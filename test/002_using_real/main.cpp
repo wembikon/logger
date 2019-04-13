@@ -14,6 +14,7 @@ int main(){
 
   jamo::Logger logger({cl, fl, nl});
   logger.fatal("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
+  logger.fatal("test refresh");
   logger.error("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
   logger.info ("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
   logger.debug("count ", 1, " two ", std::hex, 33, ", ", std::oct, 10);
