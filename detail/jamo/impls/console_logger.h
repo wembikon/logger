@@ -25,7 +25,6 @@ SOFTWARE.
 #ifndef JAMO_CONSOLE_LOGGER_H
 #define JAMO_CONSOLE_LOGGER_H
 
-#include <iostream>
 #include <string>
 
 namespace jamo {
